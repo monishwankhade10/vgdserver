@@ -11,7 +11,7 @@ var res;
   con.connect(function(err) {
     if (err) throw err;
     console.log("Connected!");
-    var sql="select * from user_info";
+    var sql="select topic from topics where topic_id=45";
     con.query("use freedbtech_vgddb");
     con.query(sql, function (err, result) {
         if (err) throw err;
@@ -28,7 +28,7 @@ http.createServer(function (request, response) {
     response.writeHead(200, {'Content-Type': 'text/plain'});
     
     // Send the response body as "Hello World"
-    response.end('Hello World\n'+res('1'));
+    response.end('Hello World\n'+re["topic"]);
  }).listen(port);
  
  // Console will print the message
