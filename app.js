@@ -1,6 +1,6 @@
-var http=require('http');
+const http=require('http');
 var port=process.env.PORT;
-var mysql = require('mysql');
+const mysql = require('mysql');
 
 var con = mysql.createConnection({
     host: "freedb.tech",
@@ -8,15 +8,13 @@ var con = mysql.createConnection({
     password: "Monish@1234",
     database: "freedbtech_vgddb"
   });
-var res;
+let res;
   con.connect(function(err) {
     if (err) throw err;
-    console.log("Connected!");
     var sql="select * from topics where topic_id<5";
     con.query(sql, function (err, result) {
         if (err) throw err;
         res=result;
-        console.log((res[0]).topic);
       });
     
   });
@@ -28,8 +26,6 @@ http.createServer(function (request, response) {
     response.writeHead(200, {'Content-Type': 'text/plain'});
     
     // Send the response body as "Hello World"
-    response.end('Hello World\n'+res.topic);
+    response.end((res[0]).topic);
  }).listen(port);
  
- // Console will print the message
- console.log('Server running at '+port);
