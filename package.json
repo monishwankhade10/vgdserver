@@ -2,7 +2,7 @@
     "name" : "vgdappserver",
     "version" : "1.0.0",
     "scripts": {
-       "start": "app.js" 
+       "start": "node app.js" 
     }
 
 }
