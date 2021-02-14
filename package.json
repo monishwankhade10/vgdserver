@@ -1,8 +1,10 @@
 {
-    "name" : "vgdappserver",
-    "version" : "1.0.0",
+    "name": "vgdappserver",
+    "version": "1.0.0",
     "scripts": {
-       "start": "node --harmony app.js" 
+        "start": "node --harmony app.js"
+    },
+    "dependencies": {
+        "mysql": "^2.18.1"
     }
-
 }
