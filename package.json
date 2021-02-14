@@ -2,7 +2,7 @@
     "name" : "vgdappserver",
     "version" : "1.0.0",
     "scripts": {
-       "start": "node ---harmony app.js" 
+       "start": "node --harmony app.js" 
     }
 
 }
