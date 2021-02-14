@@ -5,18 +5,18 @@ var mysql = require('mysql');
 var con = mysql.createConnection({
     host: "freedb.tech",
     user: "freedbtech_monishravinandan",
-    password: "Monish@1234"
+    password: "Monish@1234",
+    database: "freedbtech_vgddb"
   });
 var res;
   con.connect(function(err) {
     if (err) throw err;
     console.log("Connected!");
-    var sql="select topic from topics where topic_id=45";
-    con.query("use freedbtech_vgddb");
+    var sql="select * from topics where topic_id<5";
     con.query(sql, function (err, result) {
         if (err) throw err;
         res=result;
-        console.log("Result: " + JSON.stringify(result));
+        console.log((res[0]).topic);
       });
     
   });
