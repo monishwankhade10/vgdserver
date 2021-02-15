@@ -15,6 +15,7 @@ let res;
     con.query(sql, function (err, result) {
         if (err) throw err;
         res=result;
+        console.log((res[0]).topic);
       });
     
   });
