@@ -1,32 +1,45 @@
-const http=require('http');
-var port=process.env.PORT;
+const { json } = require('express');
+const express=require('express');
+const {RtcTokenBuilder, RtcRole} = require('agora-access-token');
+const Joi=require('joi');
+let port=process.env.PORT;
 const mysql = require('mysql');
+const app=express();
+app.use(express.json());
 
-var con = mysql.createConnection({
+let con = mysql.createConnection({
     host: "freedb.tech",
     user: "freedbtech_monishravinandan",
     password: "Monish@1234",
     database: "freedbtech_vgddb"
   });
-let res;
-  con.connect(function(err) {
-    if (err) throw err;
-    var sql="select * from topics where topic_id<5";
-    con.query(sql, function (err, result) {
-        if (err) throw err;
-        res=result;
-        console.log((res[0]).topic);
-      });
-    
-  });
 
-http.createServer(function (request, response) {
-    // Send the HTTP header 
-    // HTTP Status: 200 : OK
-    // Content Type: text/plain
-    response.writeHead(200, {'Content-Type': 'text/plain'});
-    
-    // Send the response body as "Hello World"
-    response.end((res[0]).topic);
- }).listen(port);
- 
+  app.get('/api/roomcode',(req,res)=>{
+    con.connect((err)=>{
+     if(err) throw err;
+     let sql="select roomToken from room where memberCount<4";
+     let res;
+     con.query(sql,(err,result)=>{
+       if(err) throw err;
+       if(result.length==0) 
+       res=result;
+     }); 
+    });
+    //res.send(res);
+  } );
+
+
+
+app.listen(port,()=>{
+  console.log('server running on port '+port);
+});
+
+function tokenGen() {
+  const appID = 'da3489a3bf204767b69741d8ec03f65d';
+  const appCertificate = '5CFd2fd1755d40ecb72977518be15d3b';
+  //generate channel name
+  const channelName = '7d72365eb983485397e3e3f9d460bdda';
+  //get uid from client = 0
+  const uid = 2882341273;
+  const role = RtcRole.SUBSCRIBER;
+}
