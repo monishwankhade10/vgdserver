@@ -4,6 +4,9 @@ const {RtcTokenBuilder, RtcRole} = require('agora-access-token');
 const Joi=require('joi');
 let port=process.env.PORT;
 const mysql = require('mysql');
+  //on deploy change to environment var
+  const appID = 'da3489a3bf204767b69741d8ec03f65d';
+  const appCertificate = 'e8cac1059d0f421883217de281ed9f9d';
 const app=express();
 app.use(express.json());
 
@@ -28,18 +31,31 @@ let con = mysql.createConnection({
     //res.send(res);
   } );
 
+  app.post('/api/userinfo',(req,res)=>{
+
+  });
+
 
 
 app.listen(port,()=>{
   console.log('server running on port '+port);
 });
 
+
+//functions
+
 function tokenGen() {
-  const appID = 'da3489a3bf204767b69741d8ec03f65d';
-  const appCertificate = '5CFd2fd1755d40ecb72977518be15d3b';
+
   //generate channel name
   const channelName = '7d72365eb983485397e3e3f9d460bdda';
   //get uid from client = 0
   const uid = 2882341273;
   const role = RtcRole.SUBSCRIBER;
 }
+
+const nocache = (req, resp, next) => {
+  resp.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  resp.header('Expires', '-1');
+  resp.header('Pragma', 'no-cache');
+  next();
+};

@@ -2,8 +2,9 @@
     "name": "vgdappserver",
     "version": "1.0.0",
     "scripts": {
-        "start": "node --harmony app.js"
+        "start": "node src/app.js"
     },
+    "author": "Monish Wankhade",
     "dependencies": {
         "agora-access-token": "^2.0.4",
         "express": "^4.17.1",
