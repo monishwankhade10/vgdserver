@@ -5,6 +5,6 @@ const controller=require("../controllers/controller");
 const router = (app)=>{
   app.get('/api/token/:gid',nocache,awaitRequestHandler(controller.tokenGenerator));
   app.post('/api/userdata',nocache,awaitRequestHandler(controller.updateCheckUData))
-  app.get('/api/isalive/:id',nocache,awaitRequestHandler(controller.isAlive)); 
+  app.post('/api/isalive',nocache,awaitRequestHandler(controller.isAlive)); 
 }
   module.exports = router;

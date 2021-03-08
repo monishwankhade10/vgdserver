@@ -1,8 +1,20 @@
 const rtctokenGenerator=require("../Channel/Channel");
-const Joi=require('joi');
 const query=require("../db/db-connection");
-
+const fetch=require("node-fetch");
+const addUser=require("../controllers/userController");
 class Controller{
+    #googleAuth=async (authToken)=>{
+        const uData= await fetch('https://oauth2.googleapis.com/tokeninfo?id_token='+authToken)
+        .then(res =>{
+            if(res.status===200)
+            return res.json();
+            else
+            return res.json();
+        });
+
+        return uData;
+    }
+
 
     tokenGenerator=async (req,res,next)=>{
        const checkUser=await query("select id from users where gid="+"\'"+req.params.gid+"\'");
@@ -17,19 +29,25 @@ class Controller{
        
     }
     updateCheckUData=async (req,res,next)=>{
-        /*        
-        
-        */
-
-        const schema = Joi.object({
-            token: Joi.string().min(30).required(),
-            email: Joi.String().email({ minDomainSegments: 2, tlds: { allow: ['com'] } })
-
-        });
+        const uData= await this.#googleAuth(req.body.authToken);
+        if(uData){
+               const response= await addUser(uData);
+               if(response.affectedRows==1)
+               return res.status(200).send("nice");
+               
+               return res.status(500).send("Something is wrong on our side");
+        }
+        else{
+            res.status(400).send("Fuck you client ");
+        }
     }
     isAlive=async (req,res,next)=>{
-        return res.send("yo");
-
+        const uData= await this.#googleAuth(req.body.authToken);
+        const q="update users set lastOnline=NOW() where gid="+"\'"+uData.sub+"\'";
+        const response=await query(q);
+        if(response.affectedRows==1) return res.status(200).send("nice");
+        res.status(400).send("fuck you");
+        
     }
 
 
