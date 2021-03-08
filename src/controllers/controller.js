@@ -17,7 +17,15 @@ class Controller{
        
     }
     updateCheckUData=async (req,res,next)=>{
+        /*        
+        
+        */
 
+        const schema = Joi.object({
+            token: Joi.string().min(30).required(),
+            email: Joi.String().email({ minDomainSegments: 2, tlds: { allow: ['com'] } })
+
+        });
     }
     isAlive=async (req,res,next)=>{
         return res.send("yo");
