@@ -57,6 +57,9 @@ class Controller{
         const q="update users set lastOnline=NOW() where gid="+"\'"+uData.sub+"\'";
         const response=await query(q);
         if(response.affectedRows==1) return res.status(200).send("updated");
+        res.status(400).json({
+            "error":"not logged in"
+        });
     }
 
 
