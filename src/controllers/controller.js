@@ -14,10 +14,16 @@ class Controller{
 
         return uData;
     }
+    #routine= ()=>{
+        query("delete from channels where creationTime<=DATE_SUB(NOW(),INTERVAL 1 HOUR)");
+    }
 
 
     tokenGenerator=async (req,res,next)=>{
        const uData= await this.#googleAuth(req.body.authToken);
+       if(uData.error){
+       return res.status(400).json(uData);
+ }
        const checkUser=await query("select id from users where gid="+"\'"+uData.sub+"\'");
        
        if(checkUser.length)
@@ -30,10 +36,11 @@ class Controller{
        
     }
     updateCheckUData=async (req,res,next)=>{
+        this.#routine();
         const uData= await this.#googleAuth(req.body.authToken);
         if(uData.error){
-               res.status(400).send("wrong token");
-        }
+       return res.status(400).json(uData);
+ }
         else{
             const response= await addUser(uData);
                if(response.affectedRows==1)
@@ -44,7 +51,9 @@ class Controller{
     }
     isAlive=async (req,res,next)=>{
         const uData= await this.#googleAuth(req.body.authToken);
-        if(uData.error) return res.status(400).send("wrong token");
+        if(uData.error){
+            return res.status(400).json(uData);
+      }
         const q="update users set lastOnline=NOW() where gid="+"\'"+uData.sub+"\'";
         const response=await query(q);
         if(response.affectedRows==1) return res.status(200).send("updated");
