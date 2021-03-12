@@ -1,20 +1,19 @@
 const mysql= require("mysql");
 //Remote
-// const config={
-//     //TODO: change these to process environment varible  DATABASE_HOST,DATABASE_USER,DATABASE_PASSWORD,DATABASE
-//     host: "freedb.tech", 
-//     user: "freedbtech_monishravinandan",
-//     password: "Monish@1234",
-//     database: "freedbtech_vgddb"
-// };
-//TODO: remove this local
 const config={
     //TODO: change these to process environment varible  DATABASE_HOST,DATABASE_USER,DATABASE_PASSWORD,DATABASE
-    host: "localhost", 
-    user: "monish",
-    password: "",
-    database: "vgddb_2"
-  };
+    host: "freedb.tech", 
+    user: "freedbtech_monishravinandan",
+    password: "Monish@1234",
+    database: "freedbtech_vgddb"
+};
+//TODO: remove this local
+// const config={
+//     host: "localhost", 
+//     user: "monish",
+//     password: "",
+//     database: "vgddb_2"
+//   };
 
 class DBConnection
 {
