@@ -31,7 +31,7 @@ class Controller{
             const rtcToken= await rtctokenGenerator();
             res.json(rtcToken);
        }
-       else res.status(403).send("not logged in");
+       else res.status(403).json({"error":"not logged in"});
 
        
     }
@@ -44,9 +44,9 @@ class Controller{
         else{
             const response= await addUser(uData);
                if(response.affectedRows==1)
-               return res.status(200).send("done");
+               return res.status(200).json({"status":"done"});
                
-               return res.status(500).send("Something is wrong on our side");
+               return res.status(500).json({"error":"Something is wrong on our side"});
         }
     }
     isAlive=async (req,res,next)=>{
@@ -56,7 +56,7 @@ class Controller{
       }
         const q="update users set lastOnline=NOW() where gid="+"\'"+uData.sub+"\'";
         const response=await query(q);
-        if(response.affectedRows==1) return res.status(200).send("updated");
+        if(response.affectedRows==1) return res.status(200).json({"status":"updated"});
         res.status(400).json({
             "error":"not logged in"
         });
